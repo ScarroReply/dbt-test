@@ -1,4 +1,4 @@
-# models/staging/stg_paghe_fatture.yml
+# models/staging/stg_dwh__paghe_fatture.yml
 
 version: 2
 

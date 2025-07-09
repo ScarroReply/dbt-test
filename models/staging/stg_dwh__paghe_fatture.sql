@@ -1,4 +1,4 @@
--- models/staging/stg_paghe_fatture.sql
+-- models/staging/stg_dwh__paghe_fatture.sql
 
 select
     Azienda, -- Rinomino
