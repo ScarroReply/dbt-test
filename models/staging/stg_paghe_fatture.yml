@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: stg_paghe_fatture
+    description: "Tabella di staging che fornisce una vista pulita e standardizzata dei dati di paghe e fatture. Le colonne sono rinominate per chiarezza e per aderire alle convenzioni di denominazione (snake_case)."
+    materialized: view # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
+
+    columns:
+      - name: company_name
+        description: "Nome o codice standardizzato dell'azienda."
+        tests:
+          - not_null
+      - name: year
+        description: "Anno di riferimento dei dati (es. 2023)."
+        tests:
+          - not_null
+          # Assicurati che il tuo packages.yml contenga 'dbt_expectations' e che tu abbia eseguito 'dbt deps'
+          # - dbt_expectations.expect_column_values_to_match_regex:
+          #     regex: '^\d{4}$' # Esempio: Assicura un formato anno a 4 cifre
+      - name: month
+        description: "Mese di riferimento dei dati (01-12)."
+        tests:
+          - not_null
+          # - dbt_expectations.expect_column_values_to_be_between:
+          #     min_value: 1
+          #     max_value: 12 # Esempio: Assicura che il mese sia valido (tra 1 e 12)
+      - name: employee_id
+        description: "Matricola o ID univoco del dipendente all'interno dell'azienda per un dato periodo."
+        tests:
+          - not_null
+          # Assicurati che il tuo packages.yml contenga 'dbt_utils' e che tu abbia eseguito 'dbt deps'
+          # Se la combinazione azienda, anno, mese, matricola è unica:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - company_name
+                - year
+                - month
+                - employee_id
+      - name: days_worked
+        description: "Numero di giorni effettivamente lavorati nel mese."
+        tests:
+          - not_null
+          # - dbt_expectations.expect_column_values_to_be_positive_or_zero
+      - name: days_paid
+        description: "Numero di giorni retribuiti nel mese."
+      - name: hours_worked
+        description: "Numero di ore effettivamente lavorate nel mese."
+      - name: hours_paid
+        description: "Numero di ore retribuite nel mese."
+      - name: salary_amount
+        description: "Importo dello stipendio lordo."
+        tests:
+          - not_null
+          # - dbt_expectations.expect_column_values_to_be_positive_or_zero
+      - name: tfr_salary_base
+        description: "Retribuzione di riferimento per il calcolo del TFR (Trattamento di Fine Rapporto)."
+      - name: taxable_income
+        description: "Imponibile fiscale per il calcolo delle imposte."
+      - name: net_pay
+        description: "Importo netto percepito dal dipendente, dopo deduzioni e contributi."
+        tests:
+          - not_null
+          # - dbt_expectations.expect_column_values_to_be_positive_or_zero
+      - name: payroll_cost
+        description: "Costo totale della retribuzione per l'azienda."
+      - name: payroll_contributions
+        description: "Contributi previdenziali e assistenziali a carico del datore di lavoro sulla retribuzione."
+      - name: inail_payroll
+        description: "Contributo INAIL calcolato sulla retribuzione."
+      - name: accruals_amount
+        description: "Importo relativo a ratei (es. tredicesima, quattordicesima) maturati nel mese."
+      - name: accruals_contributions
+        description: "Contributi sociali sui ratei."
+      - name: inail_accruals
+        description: "Contributo INAIL sui ratei."
+      - name: tfr_amount
+        description: "Importo effettivo del TFR maturato nel mese o erogato."
+      - name: ebi_form_payroll
+        description: "Contributi EBI (Enti Bilaterali) su retribuzione."
+      - name: ebi_form_accruals
+        description: "Contributi EBI su ratei."
+      - name: expense_reimbursements
+        description: "Importi rimborsati al dipendente per spese sostenute."
+      - name: travel_expenses
+        description: "Importo delle trasferte del dipendente."
+      - name: travel_contributions
+        description: "Contributi sociali sulle trasferte."
+      - name: one_off_payment
+        description: "Importi erogati una tantum."
+      - name: one_off_contributions
+        description: "Contributi sociali su importi una tantum."
+      - name: tax_exempt_bonus
+        description: "Importo del premio decontribuito (esente da alcune tasse)."
+      - name: tax_exempt_contributions
+        description: "Contributi associati al premio decontribuito."
+      - name: car_contributions
+        description: "Contributi relativi all'uso dell'auto aziendale."
+      - name: arrears_amount
+        description: "Importo degli arretrati."
+      - name: arrears_contributions
+        description: "Contributi sociali sugli arretrati."
+      - name: arrears_ap_amount
+        description: "Importo degli arretrati AP (Annualità Precedenti)."
+      - name: arrears_ap_contributions
+        description: "Contributi sociali sugli arretrati AP."
+      - name: one_off_ap_amount
+        description: "Importo una tantum AP (Annualità Precedenti)."
+      - name: one_off_ap_contributions
+        description: "Contributi sociali su importo una tantum AP."
+      - name: causal_90
+        description: "Valore per causale 90 (specifica da definire in base al contesto aziendale)."
+      - name: causal_91
+        description: "Valore per causale 91 (specifica da definire in base al contesto aziendale)."
+      - name: contributions_causal_90_91
+        description: "Contributi relativi alle causali 90/91."
+      - name: causal_92
+        description: "Valore per causale 92 (specifica da definire in base al contesto aziendale)."
+      - name: contributions_causal_92_96
+        description: "Contributi relativi alle causali 92/96."
+      - name: causal_93
+        description: "Valore per causale 93 (specifica da definire in base al contesto aziendale)."
+      - name: causal_94
+        description: "Valore per causale 94 (specifica da definire in base al contesto aziendale)."
+      - name: causal_96
+        description: "Valore per causale 96 (specifica da definire in base al contesto aziendale)."
+      - name: causal_99
+        description: "Valore per causale 99 (specifica da definire in base al contesto aziendale)."
+      - name: accruals_revaluation
+        description: "Rivalutazione dei ratei."
+      - name: accruals_revaluation_contributions
+        description: "Contributi sulla rivalutazione dei ratei."
+      - name: availability_allowance
+        description: "Indennità di disponibilità."
+      - name: dbt_loaded_at
+        description: "Timestamp di quando il modello è stato processato e caricato da dbt nel data warehouse."
+        tests:
+          - not_null

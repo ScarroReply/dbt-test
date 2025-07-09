@@ -1,0 +1,126 @@
+version: 2
+
+sources:
+  - name: dwh_clean_data # Un nome logico per il raggruppamento delle tue sorgenti, in questo caso i dati dal DWH
+    database: miami-test-465408 # L'ID del tuo progetto Google Cloud/BigQuery.
+    schema: dwh # <-- Questo è il nome del dataset BigQuery dove si trova la tabella 'paghefatture'.
+    tables:
+      - name: paghefatture # Il nome esatto della tua tabella in BigQuery.
+        description: "Dati puliti delle paghe e fatture provenienti dal data warehouse."
+        columns: # Qui elenchiamo le tue colonne, con descrizioni e test consigliati.
+          - name: Azienda
+            description: "Nome o codice dell'azienda."
+            tests:
+              - not_null # L'azienda dovrebbe essere sempre specificata.
+          - name: Anno
+            description: "Anno di riferimento dei dati (es. 2023)."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_match_regex: # Esempio di test: assicurati che sia un anno a 4 cifre
+                  regex: '^\d{4}$'
+          - name: Mese
+            description: "Mese di riferimento dei dati (es. 01, 12)."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between: # Esempio di test: il mese deve essere tra 1 e 12
+                  min_value: 1
+                  max_value: 12
+          - name: Matricola
+            description: "Matricola o ID univoco del dipendente."
+            tests:
+              - not_null
+              - unique # La matricola dovrebbe essere unica per ogni riga (per una data azienda, anno, mese)
+          - name: GGLav
+            description: "Giorni lavorati."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_positive # I giorni lavorati dovrebbero essere positivi.
+          - name: GGRetr
+            description: "Giorni retribuiti."
+          - name: HHLav
+            description: "Ore lavorate."
+          - name: HHRetr
+            description: "Ore retribuite."
+          - name: Stipendio
+            description: "Ammontare dello stipendio."
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_positive_or_zero # Lo stipendio non dovrebbe essere negativo.
+          - name: RetribTFR
+            description: "Retribuzione ai fini del calcolo TFR."
+          - name: ImponImps
+            description: "Imponibile imposte."
+          - name: Netto
+            description: "Importo netto percepito."
+            tests:
+              - not_null
+          - name: CostoRetr
+            description: "Costo della retribuzione."
+          - name: CtrRetr
+            description: "Contributi sulla retribuzione."
+          - name: InailRetr
+            description: "INAIL sulla retribuzione."
+          - name: Ratei
+            description: "Ratei."
+          - name: CtrRatei
+            description: "Contributi sui ratei."
+          - name: InailRatei
+            description: "INAIL sui ratei."
+          - name: Tfr
+            description: "Trattamento di Fine Rapporto (TFR)."
+          - name: EbiFormRetr
+            description: "EBI su retribuzione."
+          - name: EbiFormRatei
+            description: "EBI su ratei."
+          - name: RimbSpese
+            description: "Rimborsi spese."
+          - name: Trasferte
+            description: "Importo trasferte."
+          - name: CtrTrasferte
+            description: "Contributi sulle trasferte."
+          - name: UnaTantum
+            description: "Importi una tantum."
+          - name: CtrUnaTantum
+            description: "Contributi una tantum."
+          - name: PremioDecontrib
+            description: "Premio decontribuito."
+          - name: CtrDecontrib
+            description: "Contributi sul premio decontribuito."
+          - name: CtrAuto
+            description: "Contributi auto."
+          - name: Arretrati
+            description: "Arretrati."
+          - name: CtrArretrati
+            description: "Contributi sugli arretrati."
+          - name: ArretratiAP
+            description: "Arretrati AP."
+          - name: CtrArrAP
+            description: "Contributi sugli arretrati AP."
+          - name: UnaTantumAP
+            description: "Una tantum AP."
+          - name: CtrTantumAP
+            description: "Contributi una tantum AP."
+          - name: Causale90
+            description: "Causale 90."
+          - name: Causale91
+            description: "Causale 91."
+          - name: CtrCaus9091
+            description: "Contributi causali 90/91."
+          - name: Causale92
+            description: "Causale 92."
+          - name: CtrCaus9296
+            description: "Contributi causali 92/96."
+          - name: Causale93
+            description: "Causale 93."
+          - name: Causale94
+            description: "Causale 94."
+          - name: Causale96
+            description: "Causale 96."
+          - name: Causale99
+            description: "Causale 99."
+          - name: Rival_Ratei
+            description: "Rivalutazione ratei."
+          - name: Contrib_Riv_Ratei
+            description: "Contributi sulla rivalutazione ratei."
+          - name: Ind_dispon
+            description: "Indennità di disponibilità."
