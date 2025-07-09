@@ -6,25 +6,25 @@ models:
     materialized: view # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
 
     columns:
-      - name: company_name
+      - name: Azienda
         description: "Nome o codice standardizzato dell'azienda."
         tests:
           - not_null
-      - name: year
+      - name: Anno
         description: "Anno di riferimento dei dati (es. 2023)."
         tests:
           - not_null
           # Assicurati che il tuo packages.yml contenga 'dbt_expectations' e che tu abbia eseguito 'dbt deps'
           # - dbt_expectations.expect_column_values_to_match_regex:
           #     regex: '^\d{4}$' # Esempio: Assicura un formato anno a 4 cifre
-      - name: month
+      - name: Mese
         description: "Mese di riferimento dei dati (01-12)."
         tests:
           - not_null
           # - dbt_expectations.expect_column_values_to_be_between:
           #     min_value: 1
           #     max_value: 12 # Esempio: Assicura che il mese sia valido (tra 1 e 12)
-      - name: employee_id
+      - name: Matricola
         description: "Matricola o ID univoco del dipendente all'interno dell'azienda per un dato periodo."
         # tests:
         #   - not_null
@@ -32,104 +32,104 @@ models:
         #   # Se la combinazione azienda, anno, mese, matricola è unica:
         #   - dbt_utils.unique_combination_of_columns:
         #       combination_of_columns:
-        #         - company_name
-        #         - year
-        #         - month
-        #         - employee_id
-      - name: days_worked
+        #         - Azienda
+        #         - Anno
+        #         - Mese
+        #         - Matricola
+      - name: GGLav
         description: "Numero di giorni effettivamente lavorati nel mese."
         tests:
           - not_null
           # - dbt_expectations.expect_column_values_to_be_positive_or_zero
-      - name: days_paid
+      - name: GGRetr
         description: "Numero di giorni retribuiti nel mese."
-      - name: hours_worked
+      - name: HHLav
         description: "Numero di ore effettivamente lavorate nel mese."
-      - name: hours_paid
+      - name: HHRetr
         description: "Numero di ore retribuite nel mese."
-      - name: salary_amount
+      - name: Stipendio
         description: "Importo dello stipendio lordo."
         tests:
           - not_null
           # - dbt_expectations.expect_column_values_to_be_positive_or_zero
-      - name: tfr_salary_base
+      - name: RetribTFR
         description: "Retribuzione di riferimento per il calcolo del TFR (Trattamento di Fine Rapporto)."
-      - name: taxable_income
+      - name: ImponImps
         description: "Imponibile fiscale per il calcolo delle imposte."
-      - name: net_pay
+      - name: Netto
         description: "Importo netto percepito dal dipendente, dopo deduzioni e contributi."
         tests:
           - not_null
           # - dbt_expectations.expect_column_values_to_be_positive_or_zero
-      - name: payroll_cost
+      - name: CostoRetr
         description: "Costo totale della retribuzione per l'azienda."
-      - name: payroll_contributions
+      - name: CtrRetr
         description: "Contributi previdenziali e assistenziali a carico del datore di lavoro sulla retribuzione."
-      - name: inail_payroll
+      - name: InailRetr
         description: "Contributo INAIL calcolato sulla retribuzione."
-      - name: accruals_amount
+      - name: Ratei
         description: "Importo relativo a ratei (es. tredicesima, quattordicesima) maturati nel mese."
-      - name: accruals_contributions
+      - name: CtrRatei
         description: "Contributi sociali sui ratei."
-      - name: inail_accruals
+      - name: InailRatei
         description: "Contributo INAIL sui ratei."
-      - name: tfr_amount
+      - name: Tfr
         description: "Importo effettivo del TFR maturato nel mese o erogato."
-      - name: ebi_form_payroll
+      - name: EbiFormRetr
         description: "Contributi EBI (Enti Bilaterali) su retribuzione."
-      - name: ebi_form_accruals
+      - name: EbiFormRatei
         description: "Contributi EBI su ratei."
-      - name: expense_reimbursements
+      - name: RimbSpese
         description: "Importi rimborsati al dipendente per spese sostenute."
-      - name: travel_expenses
+      - name: Trasferte
         description: "Importo delle trasferte del dipendente."
-      - name: travel_contributions
+      - name: CtrTrasferte
         description: "Contributi sociali sulle trasferte."
-      - name: one_off_payment
+      - name: UnaTantum
         description: "Importi erogati una tantum."
-      - name: one_off_contributions
+      - name: CtrUnaTantum
         description: "Contributi sociali su importi una tantum."
-      - name: tax_exempt_bonus
+      - name: PremioDecontrib
         description: "Importo del premio decontribuito (esente da alcune tasse)."
-      - name: tax_exempt_contributions
+      - name: CtrDecontrib
         description: "Contributi associati al premio decontribuito."
-      - name: car_contributions
+      - name: CtrAuto
         description: "Contributi relativi all'uso dell'auto aziendale."
-      - name: arrears_amount
+      - name: Arretrati
         description: "Importo degli arretrati."
-      - name: arrears_contributions
+      - name: CtrArretrati
         description: "Contributi sociali sugli arretrati."
-      - name: arrears_ap_amount
+      - name: ArretratiAP
         description: "Importo degli arretrati AP (Annualità Precedenti)."
-      - name: arrears_ap_contributions
+      - name: CtrArrAP
         description: "Contributi sociali sugli arretrati AP."
-      - name: one_off_ap_amount
+      - name: UnaTantumAP
         description: "Importo una tantum AP (Annualità Precedenti)."
-      - name: one_off_ap_contributions
+      - name: CtrTantumAP
         description: "Contributi sociali su importo una tantum AP."
-      - name: causal_90
+      - name: Causale90
         description: "Valore per causale 90 (specifica da definire in base al contesto aziendale)."
-      - name: causal_91
+      - name: Causale91
         description: "Valore per causale 91 (specifica da definire in base al contesto aziendale)."
-      - name: contributions_causal_90_91
+      - name: CtrCaus9091
         description: "Contributi relativi alle causali 90/91."
-      - name: causal_92
+      - name: Causale92
         description: "Valore per causale 92 (specifica da definire in base al contesto aziendale)."
-      - name: contributions_causal_92_96
+      - name: CtrCaus9296
         description: "Contributi relativi alle causali 92/96."
-      - name: causal_93
+      - name: Causale93
         description: "Valore per causale 93 (specifica da definire in base al contesto aziendale)."
-      - name: causal_94
+      - name: Causale94
         description: "Valore per causale 94 (specifica da definire in base al contesto aziendale)."
-      - name: causal_96
+      - name: Causale96
         description: "Valore per causale 96 (specifica da definire in base al contesto aziendale)."
-      - name: causal_99
+      - name: Causale99
         description: "Valore per causale 99 (specifica da definire in base al contesto aziendale)."
-      - name: accruals_revaluation
+      - name: Rival_Ratei
         description: "Rivalutazione dei ratei."
-      - name: accruals_revaluation_contributions
+      - name: Contrib_Riv_Ratei
         description: "Contributi sulla rivalutazione dei ratei."
-      - name: availability_allowance
+      - name: Ind_dispon
         description: "Indennità di disponibilità."
       - name: dbt_loaded_at
         description: "Timestamp di quando il modello è stato processato e caricato da dbt nel data warehouse."
