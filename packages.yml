@@ -1,0 +1,9 @@
+# packages.yml
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: [">=1.1.0"] # This ensures you get a compatible version
+  # If you also plan to use dbt_expectations (for tests like regex, positive_or_zero, etc.),
+  # include it here as well:
+  - package: calogica/dbt_expectations
+    version: [">=0.10.0"] # Choose a compatible version, check dbt Hub for latest

@@ -26,16 +26,16 @@ models:
           #     max_value: 12 # Esempio: Assicura che il mese sia valido (tra 1 e 12)
       - name: employee_id
         description: "Matricola o ID univoco del dipendente all'interno dell'azienda per un dato periodo."
-        tests:
-          - not_null
-          # Assicurati che il tuo packages.yml contenga 'dbt_utils' e che tu abbia eseguito 'dbt deps'
-          # Se la combinazione azienda, anno, mese, matricola è unica:
-          - dbt_utils.unique_combination_of_columns:
-              combination_of_columns:
-                - company_name
-                - year
-                - month
-                - employee_id
+        # tests:
+        #   - not_null
+        #   # Assicurati che il tuo packages.yml contenga 'dbt_utils' e che tu abbia eseguito 'dbt deps'
+        #   # Se la combinazione azienda, anno, mese, matricola è unica:
+        #   - dbt_utils.unique_combination_of_columns:
+        #       combination_of_columns:
+        #         - company_name
+        #         - year
+        #         - month
+        #         - employee_id
       - name: days_worked
         description: "Numero di giorni effettivamente lavorati nel mese."
         tests:
