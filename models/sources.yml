@@ -1,3 +1,4 @@
+
 # models/sources.yml
 
 version: 2
@@ -41,8 +42,12 @@ sources:
             description: "Giorni retribuiti."
           - name: HHLav
             description: "Ore lavorate."
+            tests:
+              - not_null
           - name: HHRetr
             description: "Ore retribuite."
+            tests:
+              - not_null
           - name: Stipendio
             description: "Ammontare dello stipendio."
             tests:
@@ -50,82 +55,227 @@ sources:
               - dbt_expectations.expect_column_values_to_be_positive_or_zero # Lo stipendio non dovrebbe essere negativo.
           - name: RetribTFR
             description: "Retribuzione ai fini del calcolo TFR."
+            tests:
+              - not_null
           - name: ImponImps
             description: "Imponibile imposte."
+            tests:
+              - not_null
           - name: Netto
             description: "Importo netto percepito."
             tests:
               - not_null
           - name: CostoRetr
             description: "Costo della retribuzione."
+            tests:
+              - not_null
           - name: CtrRetr
             description: "Contributi sulla retribuzione."
+            tests:
+              - not_null
           - name: InailRetr
             description: "INAIL sulla retribuzione."
+            tests:
+              - not_null
           - name: Ratei
             description: "Ratei."
+            tests:
+              - not_null
           - name: CtrRatei
             description: "Contributi sui ratei."
+            tests:
+              - not_null
           - name: InailRatei
             description: "INAIL sui ratei."
+            tests:
+              - not_null
           - name: Tfr
             description: "Trattamento di Fine Rapporto (TFR)."
+            tests:
+              - not_null
           - name: EbiFormRetr
             description: "EBI su retribuzione."
+            tests:
+              - not_null
           - name: EbiFormRatei
             description: "EBI su ratei."
+            tests:
+              - not_null
           - name: RimbSpese
             description: "Rimborsi spese."
+            tests:
+              - not_null
           - name: Trasferte
             description: "Importo trasferte."
+            tests:
+              - not_null
           - name: CtrTrasferte
             description: "Contributi sulle trasferte."
+            tests:
+              - not_null
           - name: UnaTantum
             description: "Importi una tantum."
+            tests:
+              - not_null
           - name: CtrUnaTantum
             description: "Contributi una tantum."
+            tests:
+              - not_null
           - name: PremioDecontrib
             description: "Premio decontribuito."
+            tests:
+              - not_null
           - name: CtrDecontrib
             description: "Contributi sul premio decontribuito."
+            tests:
+              - not_null
           - name: CtrAuto
             description: "Contributi auto."
+            tests:
+              - not_null
           - name: Arretrati
             description: "Arretrati."
+            tests:
+              - not_null
           - name: CtrArretrati
             description: "Contributi sugli arretrati."
+            tests:
+              - not_null
           - name: ArretratiAP
             description: "Arretrati AP."
+            tests:
+              - not_null
           - name: CtrArrAP
             description: "Contributi sugli arretrati AP."
+            tests:
+              - not_null
           - name: UnaTantumAP
             description: "Una tantum AP."
+            tests:
+              - not_null
           - name: CtrTantumAP
             description: "Contributi una tantum AP."
+            tests:
+              - not_null
           - name: Causale90
             description: "Causale 90."
+            tests:
+              - not_null
           - name: Causale91
             description: "Causale 91."
+            tests:
+              - not_null
           - name: CtrCaus9091
             description: "Contributi causali 90/91."
+            tests:
+              - not_null
           - name: Causale92
             description: "Causale 92."
+            tests:
+              - not_null
           - name: CtrCaus9296
             description: "Contributi causali 92/96."
+            tests:
+              - not_null
           - name: Causale93
             description: "Causale 93."
+            tests:
+              - not_null
           - name: Causale94
             description: "Causale 94."
+            tests:
+              - not_null
           - name: Causale96
             description: "Causale 96."
+            tests:
+              - not_null
           - name: Causale99
             description: "Causale 99."
+            tests:
+              - not_null
           - name: Rival_Ratei
             description: "Rivalutazione ratei."
+            tests:
+              - not_null
           - name: Contrib_Riv_Ratei
             description: "Contributi sulla rivalutazione ratei."
+            tests:
+              - not_null
           - name: Ind_dispon
             description: "Indennità di disponibilità."
+            tests:
+              - not_null
+
+      - name: FactFatture
+        description: "Tabella dei fatti delle fatture, fonte per le elaborazioni successive."
+        columns:
+          - name: id_fact
+            description: "ID univoco del fatto."
+            tests:
+              - not_null
+              - unique
+          - name: id_DimDataDocumento
+            description: "ID della dimensione Data Documento."
+            tests: [not_null]
+          - name: id_DimDataCompetenza
+            description: "ID della dimensione Data Competenza."
+            tests: [not_null]
+          - name: id_DimClienti
+            description: "ID della dimensione Clienti."
+            tests: [not_null]
+          - name: id_DimContiContabili
+            description: "ID della dimensione Conti Contabili."
+            tests: [not_null]
+          - name: id_DimContrattiPrestazione
+            description: "ID della dimensione Contratti Prestazione."
+            tests: [not_null]
+          - name: id_DimDocumenti
+            description: "ID della dimensione Documenti."
+            tests: [not_null]
+          - name: id_DimLineeBusiness
+            description: "ID della dimensione Linee Business."
+            tests: [not_null]
+          - name: id_DimStatiElaborazione
+            description: "ID della dimensione Stati Elaborazione."
+            tests: [not_null]
+          - name: id_DimCausali
+            description: "ID della dimensione Causali."
+            tests: [not_null]
+          - name: id_DimLavoratori
+            description: "ID della dimensione Lavoratori."
+            tests: [not_null]
+          - name: id_DimAlbero
+            description: "ID della dimensione Albero."
+            tests: [not_null]
+          - name: id_DimContatti
+            description: "ID della dimensione Contatti."
+            tests: [not_null]
+          - name: id_DimBusinessLineCDG
+            description: "ID della dimensione Business Line CDG."
+            tests: [not_null]
+          - name: id_dimProdottoCDG
+            description: "ID della dimensione Prodotto CDG."
+            tests: [not_null]
+          - name: Quantita
+            description: "Quantità."
+            tests:
+              - not_null
+          - name: PrezzoUnitario
+            description: "Prezzo unitario."
+            tests:
+              - not_null
+          - name: Fatturato
+            description: "Fatturato."
+            tests:
+              - not_null
+          - name: CostoTecnicoUnitario
+            description: "Costo tecnico unitario."
+            tests:
+              - not_null
+          - name: CostoPresuntoUnitario
+            description: "Costo presunto unitario."
+            tests:
+              - not_null
 
 
   - name: iam_log
@@ -147,3 +297,179 @@ sources:
             description: "Periodo di riferimento del log."
             tests:
               - not_null
+  - name: stg_data
+    database: miami-test-465408
+    schema: stg
+    tables:
+      - name: tblGruppiClienti
+        description: "Tabella dei gruppi clienti utilizzata per la funzione udf_Dati_IBCNIF."
+        columns:
+          - name: CodInternazionale
+            description: "Codice internazionale del gruppo clienti."
+            tests:
+              - not_null
+          - name: ConcernName
+            description: "Nome del gruppo clienti."
+            tests:
+              - not_null
+          - name: ConcernLevel
+            description: "Livello di concern del gruppo clienti."
+            tests:
+              - not_null
+          - name: UpperLevel
+            description: "Livello superiore del gruppo clienti."
+            tests:
+              - not_null
+      - name: tblMansioni
+        description: "Tabella delle mansioni utilizzata per la funzione udf_Dati_IBFUIF."
+        columns:
+          - name: C_MANIST_COD
+            description: "Codice mansione."
+            tests:
+              - not_null
+          - name: C_MANIST_DES
+            description: "Descrizione mansione."
+            tests:
+              - not_null
+          - name: C_RAGGRMANS_COD
+            description: "Codice raggruppamento mansione."
+            tests:
+              - not_null
+          - name: C_ISTAT_COD
+            description: "Codice ISTAT."
+            tests:
+              - not_null
+  - name: mds_data
+    database: miami-test-465408
+    schema: dbo
+    tables:
+      - name: Mansioni_Trascodifica_RND
+        description: "Tabella di trascodifica delle mansioni Randstad."
+        columns:
+          - name: cod_mansione_randstad_italy
+            description: "Codice mansione Randstad Italia."
+            tests:
+              - not_null
+          - name: desc_mansione_randstad_italy
+            description: "Descrizione mansione Randstad Italia."
+            tests:
+              - not_null
+      - name: Mansioni_RASCO_ISCO_SPEC
+        description: "Tabella delle specialità RASCO ISCO."
+        columns:
+          - name: code_6_dgt_rasco
+            description: "Codice a 6 cifre RASCO."
+            tests:
+              - not_null
+          - name: specialty
+            description: "Specialità."
+            tests:
+              - not_null
+          - name: DESC_SPECIALTY
+            description: "Descrizione della specialità."
+            tests:
+              - not_null
+          - name: DESC_ESTESA_SPECIALTY
+            description: "Descrizione estesa della specialità."
+            tests:
+              - not_null
+  - name: olap_data
+    database: miami-test-465408
+    schema: olap
+    tables:
+      - name: vwFactCostoTotaleperCP
+        description: "Vista dei costi totali per CP."
+        columns:
+          - name: id_DimSocieta
+            description: "ID della dimensione Società."
+          - name: QuantitaCosto
+            description: "Quantità costo."
+          - name: CostoUnitario
+            description: "Costo unitario."
+          - name: CostoTotale
+            description: "Costo totale."
+          - name: id_DimDataDocumento
+            description: "ID della dimensione Data Documento."
+          - name: id_DimDataCompetenza
+            description: "ID della dimensione Data Competenza."
+          - name: id_DimAlbero
+            description: "ID della dimensione Albero."
+          - name: id_DimClienti
+            description: "ID della dimensione Clienti."
+          - name: id_DimContrattiPrestazione
+            description: "ID della dimensione Contratti Prestazione."
+          - name: id_DimLavoratori
+            description: "ID della dimensione Lavoratori."
+          - name: id_DimCausali
+            description: "ID della dimensione Causali."
+          - name: id_DimContatti
+            description: "ID della dimensione Contatti."
+          - name: id_DimContrattiQuadro
+            description: "ID della dimensione Contratti Quadro."
+          - name: id_DimProdottoCDG
+            description: "ID della dimensione Prodotto CDG."
+          - name: id_dim_Transfer
+            description: "ID della dimensione Transfer."
+          - name: id_DimContrattiFornitura
+            description: "ID della dimensione Contratti Fornitura."
+          - name: Id_DimSorgente
+            description: "ID della dimensione Sorgente."
+          - name: Id_DimTipoBusiness
+            description: "ID della dimensione Tipo Business."
+      - name: vwFactFattureCDG
+        description: "Vista dei fatti delle fatture CDG."
+        columns:
+          - name: id_DimSocieta
+            description: "ID della dimensione Società."
+          - name: id_DimAlbero
+            description: "ID della dimensione Albero."
+          - name: id_DimLavoratori
+            description: "ID della dimensione Lavoratori."
+          - name: id_DimDataDocumento
+            description: "ID della dimensione Data Documento."
+          - name: id_DimDataCompetenza
+            description: "ID della dimensione Data Competenza."
+          - name: id_DimClienti
+            description: "ID della dimensione Clienti."
+          - name: id_DimContiContabili
+            description: "ID della dimensione Conti Contabili."
+          - name: id_DimContrattiPrestazione
+            description: "ID della dimensione Contratti Prestazione."
+          - name: id_DimDocumenti
+            description: "ID della dimensione Documenti."
+          - name: id_DimLineeBusiness
+            description: "ID della dimensione Linee Business."
+          - name: id_DimStatiElaborazione
+            description: "ID della dimensione Stati Elaborazione."
+          - name: id_DimCausali
+            description: "ID della dimensione Causali."
+          - name: id_DimContatti
+            description: "ID della dimensione Contatti."
+          - name: id_DimContrattiQuadro
+            description: "ID della dimensione Contratti Quadro."
+          - name: id_DimBusinessLineCDG
+            description: "ID della dimensione Business Line CDG."
+          - name: id_DimProdottoCDG
+            description: "ID della dimensione Prodotto CDG."
+          - name: id_dim_Transfer
+            description: "ID della dimensione Transfer."
+          - name: Quantita
+            description: "Quantità."
+          - name: PrezzoUnitario
+            description: "Prezzo unitario."
+          - name: Fatturato
+            description: "Fatturato."
+          - name: CostoPresuntoUnitario
+            description: "Costo presunto unitario."
+          - name: CostoTecnicoUnitario
+            description: "Costo tecnico unitario."
+          - name: OreAssenzaFatt
+            description: "Ore assenza fatturate."
+          - name: OreLavorabiliFatt
+            description: "Ore lavorabili fatturate."
+          - name: id_DimContrattiFornitura
+            description: "ID della dimensione Contratti Fornitura."
+          - name: Id_DimSorgente
+            description: "ID della dimensione Sorgente."
+          - name: Id_DimTipoBusiness
+            description: "ID della dimensione Tipo Business."
