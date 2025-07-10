@@ -126,3 +126,24 @@ sources:
             description: "Contributi sulla rivalutazione ratei."
           - name: Ind_dispon
             description: "Indennità di disponibilità."
+
+
+  - name: iam_log
+    database: miami-test-465408
+    schema: IAM
+    tables:
+      - name: IAM_LOG
+        description: "Log dei periodi già elaborati. Questi log sono utilizzati per evitare rielaborazioni non necessarie."
+        columns:
+          - name: IdFile
+            description: "id del file."
+            tests:
+              - not_null
+          - name: InsertDate
+            description: "Data di inserimento del log."
+            tests:
+              - not_null
+          - name: Period
+            description: "Periodo di riferimento del log."
+            tests:
+              - not_null

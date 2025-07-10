@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_iam_log
+    description: "Log dei periodi già elaborati. Questi log sono utilizzati per evitare rielaborazioni non necessarie."
+    materialized: view  # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
+    
+    columns:
+      - name: IdFile
+        description: "id del file."
+        tests:
+          - not_null
+      - name: InsertDate
+        description: "Data di inserimento del log."
+        tests:
+          - not_null
+      - name: Period
+        description: "Periodo di riferimento del log."
+        tests:
+          - not_null

@@ -1,7 +1,7 @@
 -- models/staging/stg_dwh__paghe_fatture.sql
 
 select
-    Azienda, -- Rinomino
+    Azienda,
     Anno,
     Mese,
     Matricola,
