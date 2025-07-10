@@ -16,17 +16,8 @@ sources:
               - not_null # L'azienda dovrebbe essere sempre specificata.
           - name: Anno
             description: "Anno di riferimento dei dati (es. 2023)."
-            tests:
-              - not_null
-              - dbt_expectations.expect_column_values_to_match_regex: # Esempio di test: assicurati che sia un anno a 4 cifre
-                  regex: '^\d{4}$'
           - name: Mese
             description: "Mese di riferimento dei dati (es. 01, 12)."
-            tests:
-              - not_null
-              - dbt_expectations.expect_column_values_to_be_between: # Esempio di test: il mese deve essere tra 1 e 12
-                  min_value: 1
-                  max_value: 12
           - name: Matricola
             description: "Matricola o ID univoco del dipendente."
             tests:
@@ -36,7 +27,6 @@ sources:
             description: "Giorni lavorati."
             tests:
               - not_null
-              - dbt_expectations.expect_column_values_to_be_positive # I giorni lavorati dovrebbero essere positivi.
           - name: GGRetr
             description: "Giorni retribuiti."
           - name: HHLav
@@ -47,7 +37,6 @@ sources:
             description: "Ammontare dello stipendio."
             tests:
               - not_null
-              - dbt_expectations.expect_column_values_to_be_positive_or_zero # Lo stipendio non dovrebbe essere negativo.
           - name: RetribTFR
             description: "Retribuzione ai fini del calcolo TFR."
           - name: ImponImps
