@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: stg_iam_log
+  - name: stg_IAM__iam_log
     description: "Log dei periodi già elaborati. Questi log sono utilizzati per evitare rielaborazioni non necessarie."
-    materialized: view  # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
+    #materialized: view  # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
     
     columns:
       - name: IdFile
