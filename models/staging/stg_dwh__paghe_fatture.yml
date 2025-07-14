@@ -5,7 +5,8 @@ version: 2
 models:
   - name: stg_dwh__paghe_fatture
     description: "Tabella di staging che fornisce una vista pulita e standardizzata dei dati di paghe e fatture. Le colonne sono rinominate per chiarezza e per aderire alle convenzioni di denominazione (snake_case)."
-    materialized: view # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
+    config:
+      materialized: view  # Questo modello sarà una vista in BigQuery, garantendo dati sempre aggiornati.
 
     columns:
       - name: paghe_fatture_id
